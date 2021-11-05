@@ -1,0 +1,5 @@
+[MASTER]
+
+disable=
+    missing-docstring,
+    line-too-long
