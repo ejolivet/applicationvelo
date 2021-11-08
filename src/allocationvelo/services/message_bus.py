@@ -70,4 +70,6 @@ EVENT_HANDLERS: Dict[Type[events.Event], List[Callable]] = {
 
 COMMAND_HANDLERS = {
     commands.AddComponentTypeCommand: handlers.AddComponentTypeHandler,
+    commands.AddComponentCommand: handlers.AddComponentHandler,
+    commands.InstallComponentOnTargetCommand: handlers.InstallComponentOnTargetHandler,
 }  # type: Dict[Type[commands.Command], Callable]

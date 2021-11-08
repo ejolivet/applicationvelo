@@ -3,7 +3,7 @@ from sqlalchemy.orm import registry, relationship
 from sqlalchemy.orm.collections import attribute_mapped_collection
 from sqlalchemy.sql.schema import ForeignKey
 
-from allocationvelo.domain import model_component_type, model_atelier
+from allocationvelo.domain import model_component_type, model_component, model_atelier
 
 metadata = MetaData()
 mapper_registry = registry(metadata=metadata)
@@ -26,14 +26,29 @@ table_component_types = Table(
     Column("parent_type_id", String(100)),
 )
 
+table_components = Table(
+    "tb_components",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("identifiant", String(100), nullable=False, index=True, unique=True),
+    Column("atelier", String(255), ForeignKey("tb_ateliers.identifiant")),
+    Column("component_name", String(50)),
+    Column("type_component", String(50)),
+    Column("parent_component_id", String(100)),
+)
+
 
 def start_mappers():
     mapper_types = mapper_registry.map_imperatively(model_component_type.ComponentType, table_component_types)
+    mapper_components = mapper_registry.map_imperatively(model_component.Component, table_components)
     mapper_registry.map_imperatively(
         model_atelier.Atelier,
         table_ateliers,
         properties={
-            "component_types": relationship(mapper_types, collection_class=attribute_mapped_collection("identifiant"))
+            "component_types": relationship(mapper_types, collection_class=attribute_mapped_collection("identifiant")),
+            "components": relationship(
+                mapper_components, collection_class=attribute_mapped_collection("component_name")
+            ),
         },
     )
 
