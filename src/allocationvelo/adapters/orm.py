@@ -15,17 +15,6 @@ table_ateliers = Table(
     Column("identifiant", String(255), primary_key=True),
 )
 
-
-table_component_types = Table(
-    "tb_component_types",
-    metadata,
-    Column("id", Integer, primary_key=True, autoincrement=True),
-    Column("identifiant", String(100), nullable=False, index=True, unique=True),
-    Column("atelier", String(255), ForeignKey("tb_ateliers.identifiant")),
-    Column("type_component", String(50)),
-    Column("parent_type_id", String(100)),
-)
-
 table_components = Table(
     "tb_components",
     metadata,
@@ -35,6 +24,17 @@ table_components = Table(
     Column("component_name", String(50)),
     Column("type_component", String(50)),
     Column("parent_component_id", String(100)),
+)
+
+
+table_component_types = Table(
+    "tb_component_types",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("identifiant", String(100), nullable=False, index=True, unique=True),
+    Column("atelier", String(255), ForeignKey("tb_ateliers.identifiant")),
+    Column("type_component", String(50)),
+    Column("parent_type_id", String(100)),
 )
 
 

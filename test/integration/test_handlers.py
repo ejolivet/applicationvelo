@@ -72,6 +72,7 @@ def test_can_install_component_on_target_component(session_factory):
     message_bus.handle(commands.AddComponentCommand("atelier", "Component2", "Type1"), uow)
 
     message_bus.handle(commands.InstallComponentOnTargetCommand("atelier", "Component2", "Component1"), uow)
+
     assert (
         uow.ateliers.get("atelier").components["Component2"].parent_component_id
         == uow.ateliers.get("atelier").components["Component1"].identifiant
