@@ -1,33 +1,29 @@
 from __future__ import annotations
-from typing import NewType, Union
+from typing import NewType, Optional
 from uuid import UUID
 
-ComponentTypeID = NewType("ComponentTypeID", UUID)
+ComponentTypeName = NewType("ComponentTypeName", str)
 
 
 class ComponentType:
     def __init__(
         self,
-        atelier: str,
-        identifiant: ComponentTypeID,
-        type_component: str,
-        parent_type_id: Union[None, ComponentTypeID] = None,
+        name: ComponentTypeName,
+        parent_type_name: Optional[ComponentTypeName] = None,
     ):
-        self.atelier = atelier
-        self.identifiant: ComponentTypeID = identifiant
-        self.type_component: str = type_component
-        self.parent_type_id: Union[ComponentTypeID, None] = parent_type_id
+        self.name: ComponentTypeName = name
+        self.parent_type_name: Optional[ComponentTypeName] = parent_type_name
 
     # def __repr__(self) -> str:
-    #     return self.type_component
+    #     return self.name
 
     def __hash__(self):
-        return hash(self.identifiant)
+        return hash(self.name)
 
     def __eq__(self, other):
         if not isinstance(other, ComponentType):
             return False
-        return other.type_component == self.type_component
+        return other.name == self.name
 
     def sub_component_type_of(self, component_type: ComponentType) -> None:
-        self.parent_type_id = component_type.identifiant
+        self.parent_type_id = component_type.name
