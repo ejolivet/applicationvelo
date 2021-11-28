@@ -4,19 +4,18 @@ from uuid import UUID, uuid1
 
 from .model_component_type import ComponentTypeName
 
-ComponentID = NewType("ComponentID", UUID)
+ComponentID = NewType("ComponentID", str)
 ComponentName = NewType("ComponentName", str)
 
 
 class Component:
     def __init__(
         self,
-        identifiant: ComponentID,
         component_name: ComponentName,
         component_type: ComponentTypeName,
         parent_component_id: Union[None, ComponentID] = None,
     ):
-        self.identifiant: ComponentID = identifiant
+        self.identifiant: ComponentID = ComponentID(uuid1().hex)
         self.component_name: ComponentName = component_name
         self.component_type: ComponentTypeName = component_type
         self.parent_component_id: Union[ComponentID, None] = parent_component_id

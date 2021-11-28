@@ -4,7 +4,7 @@ from allocationvelo.domain.model_component_type import ComponentType, ComponentT
 
 
 class AbstractRepositoryComponentType(Protocol):
-    def add(self, product: ComponentType):
+    def add(self, component_type: ComponentType):
         ...
 
     def get(self, typename: ComponentTypeName) -> ComponentType:
@@ -36,7 +36,7 @@ class SqlAlchemyRepositoryComponentType:
     def add(self, component_type: ComponentType):
         self.session.add(component_type)
 
-    def get(self, typename: ComponentTypeName):
+    def get(self, typename: ComponentTypeName) -> ComponentType:
         return self.session.query(ComponentType).filter_by(typename=typename).first()
 
     def list(self):

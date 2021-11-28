@@ -26,4 +26,4 @@ class ComponentType:
         return other.name == self.name
 
     def sub_component_type_of(self, component_type: ComponentType) -> None:
-        self.parent_type_id = component_type.name
+        self.parent_type_name = component_type.name

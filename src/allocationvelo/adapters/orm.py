@@ -9,11 +9,28 @@ metadata = MetaData()
 mapper_registry = registry(metadata=metadata)
 
 
-# table_ateliers = Table(
-#     "tb_ateliers",
-#     metadata,
-#     Column("identifiant", String(255), primary_key=True),
-# )
+table_ateliers = Table(
+    "tb_ateliers",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("identifiant", String(255), index=True),
+)
+
+table_allocation_component_types = Table(
+    "tb_allocation_component_types",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("atelier_identifiant", ForeignKey("tb_ateliers.identifiant")),
+    Column("component_type_name", ForeignKey("tb_component_types.name")),
+)
+
+table_allocation_components = Table(
+    "tb_allocation_components",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("atelier_identifiant", ForeignKey("tb_ateliers.identifiant")),
+    Column("component_identifiant", ForeignKey("tb_components.identifiant")),
+)
 
 table_components = Table(
     "tb_components",
@@ -45,25 +62,33 @@ table_component_types = Table(
 #     Column("component_identifiant", ForeignKey("tb_components.identifiant")),
 # )
 
-# table_allocation_component_types = Table(
-#     "tb_allocation_component_types",
-#     metadata,
-#     Column("id", Integer, primary_key=True, autoincrement=True),
-#     Column("atelier_identifiant", ForeignKey("tb_ateliers.identifiant")),
-#     Column("component_type_identifiant", ForeignKey("tb_component_types.identifiant")),
-# )
-
 
 def start_mappers():
     mapper_types = mapper_registry.map_imperatively(model_component_type.ComponentType, table_component_types)
     mapper_components = mapper_registry.map_imperatively(model_component.Component, table_components)
+    mapper_ateliers = mapper_registry.map_imperatively(
+        model_atelier.Atelier,
+        table_ateliers,
+        properties={
+            "component_types": relationship(
+                mapper_types,
+                secondary="tb_allocation_component_types",
+                collection_class=attribute_mapped_collection("name"),
+            ),
+            "components": relationship(
+                mapper_components,
+                secondary="tb_allocation_components",
+                collection_class=attribute_mapped_collection("identifiant"),
+            ),
+        },
+    )
     # mapper_registry.map_imperatively(
     #     model_atelier.Atelier,
     #     table_ateliers,
     #     properties={
     #         "component_types": relationship(
     #             mapper_types,
-    #             # secondary="tb_allocation_component_types",
+    #             secondary="tb_allocation_component_types",
     #             collection_class=attribute_mapped_collection("identifiant"),
     #         ),
     #         "components": relationship(

@@ -57,7 +57,15 @@ class NotifyComponentTypeCreatedHandler:
         self.uow = uow
 
     def __call__(self, component_type: str):
-        print("COMPONENET TYPE CREATED: component_type")
+        print("COMPONENT TYPE CREATED: component_type")
+
+
+class NotifyComponentCreatedHandler:
+    def __init__(self, uow: unit_of_work.SqlAlchemyUnitOfWorkAtelier):
+        self.uow = uow
+
+    def __call__(self, component_name: str):
+        print("COMPONENT  CREATED: component_name")
 
 
 # def notify_component_type_created(component_type: str):

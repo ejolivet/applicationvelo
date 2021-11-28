@@ -66,6 +66,7 @@ def handle_command(
 
 EVENT_HANDLERS: Dict[Type[events.Event], List[Callable]] = {
     events.ComponentTypeCreated: [handlers.NotifyComponentTypeCreatedHandler],
+    events.ComponentCreated: [handlers.NotifyComponentCreatedHandler],
 }
 
 COMMAND_HANDLERS = {

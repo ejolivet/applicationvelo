@@ -11,3 +11,9 @@ class Event:
 @dataclass(frozen=True)
 class ComponentTypeCreated(Event):
     type: str
+
+
+@final
+@dataclass(frozen=True)
+class ComponentCreated(Event):
+    component: str

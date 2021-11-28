@@ -36,7 +36,7 @@ class SqlAlchemyRepositoryComponent:
     def add(self, component_type: Component):
         self.session.add(component_type)
 
-    def get(self, identifiant: ComponentID):
+    def get(self, identifiant: ComponentID) -> Component:
         return self.session.query(Component).filter_by(identifiant=identifiant).first()
 
     def list(self):

@@ -5,7 +5,7 @@ from allocationvelo.domain.model_component_type import ComponentTypeName
 
 
 def test_define_component_without_parent():
-    component = Component(ComponentID("100"), ComponentName("Component1"), ComponentTypeName("Type1"))
+    component = Component(ComponentName("Component1"), ComponentTypeName("Type1"))
 
     assert component.component_name == "Component1"
     assert component.component_type == "Type1"
@@ -14,7 +14,6 @@ def test_define_component_without_parent():
 
 def test_define_component_with_parent():
     component = Component(
-        ComponentID("100"),
         ComponentName("Component1"),
         ComponentTypeName("Type1"),
         parent_component_id=ComponentID("200"),
